@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:pizza_app/pages/food/categories.dart';
+
 import 'package:pizza_app/pages/food/popular_food_detail.dart';
 import 'package:pizza_app/pages/home/main_food_page.dart';
 void main() {
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PopularFoodDetail(),
+      home: Categories(),
     );
   }
 }
