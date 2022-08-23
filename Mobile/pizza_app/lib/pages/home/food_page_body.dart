@@ -1,6 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pizza_app/controllers/popular_product_controller.dart';
+import 'package:pizza_app/models/products_models.dart';
+import 'package:pizza_app/utils/app_constants.dart';
 import 'package:pizza_app/utils/colors.dart';
 import 'package:pizza_app/utils/dimensions.dart';
 import 'package:pizza_app/widgets/app_column_icon.dart';
@@ -44,25 +48,29 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-      Container(
-      height: Dimensions.pageView,
-      child: PageView.builder(
-          controller: pageController,
-          itemCount: 5,
-          itemBuilder: (context, position){
-            return _buildPageItem(position);
-          }),
-    ),
-      new DotsIndicator(
-        dotsCount: 5,
-        position: _currPageValue,
-        decorator: DotsDecorator(
-          activeColor: AppColors.mainColor,
-          size: const Size.square(9.0),
-          activeSize: const Size(18.0, 9.0),
-          activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-        ),
-      ),
+      GetBuilder<PopularProductController>(builder: (popularProducts) {
+        return Container(
+          height: Dimensions.pageView,
+          child: PageView.builder(
+              controller: pageController,
+              itemCount: popularProducts.popularProductList.length,
+              itemBuilder: (context, position){
+                return _buildPageItem(position, popularProducts.popularProductList[position]);
+              }),
+        );
+      }),
+        GetBuilder<PopularProductController>(builder: (popularProducts) {
+          return DotsIndicator(
+            dotsCount: popularProducts.popularProductList.length <= 0 ? 1 : popularProducts.popularProductList.length,
+            position: _currPageValue,
+            decorator: DotsDecorator(
+              activeColor: AppColors.mainColor,
+              size: const Size.square(9.0),
+              activeSize: const Size(18.0, 9.0),
+              activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+            ),
+          );
+        }),
         //popular text
         SizedBox(height: Dimensions.height30),
         Container(
@@ -154,7 +162,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
 
   // scale header effect, master flutter ;)
 
-  Widget _buildPageItem(int index){
+  Widget _buildPageItem(int index, ProductModel popularProduct){
     Matrix4 matrix = new Matrix4.identity();
     if(index == _currPageValue.floor()) {
       var currScale = 1-(_currPageValue-index)*(1-_scaleFactor);
@@ -192,8 +200,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 color: index.isEven? Color(0xFF69c5df) : Color(0xFF9294cc),
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(
-                        "assets/img/pizza-blanche.jpg"
+                    image: NetworkImage(
+                        AppConstants.BASE_URL + "/uploads/" + popularProduct.img!,
                     )
                 )
             ),
@@ -226,7 +234,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               ),
               child: Container(
                 padding: EdgeInsets.only(top: Dimensions.height15, left: 15, right: 15),
-                child: AppColumnIcon(text: "Pizza du moment",),
+                child: AppColumnIcon(text: popularProduct.name!,),
               ),
             ),
           )

@@ -7,6 +7,7 @@ import 'package:pizza_app/pages/food/categories.dart';
 import 'package:pizza_app/pages/food/product_detail.dart';
 import 'package:pizza_app/pages/food/popular_food_detail.dart';
 import 'package:pizza_app/pages/food/product_detail.dart';
+import 'package:pizza_app/pages/home/food_page_body.dart';
 import 'package:pizza_app/pages/home/main_food_page.dart';
 import 'helper/dependencies.dart' as dep;
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProductDetail(),
+      home: MainFoodPage(),
     );
   }
 }
