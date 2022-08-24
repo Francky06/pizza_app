@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pizza_app/controllers/popular_product_controller.dart';
+import 'package:pizza_app/controllers/recommended_product_controller.dart';
 import 'package:pizza_app/models/products_models.dart';
 import 'package:pizza_app/utils/app_constants.dart';
 import 'package:pizza_app/utils/colors.dart';
@@ -49,7 +50,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
     return Column(
       children: [
       GetBuilder<PopularProductController>(builder: (popularProducts) {
-        return Container(
+        return popularProducts.isLoaded ? Container(
           height: Dimensions.pageView,
           child: PageView.builder(
               controller: pageController,
@@ -57,6 +58,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               itemBuilder: (context, position){
                 return _buildPageItem(position, popularProducts.popularProductList[position]);
               }),
+        ) : CircularProgressIndicator(
+          color: AppColors.mainColor,
         );
       }),
         GetBuilder<PopularProductController>(builder: (popularProducts) {
@@ -95,50 +98,51 @@ class _FoodPageBodyState extends State<FoodPageBody> {
 
         // list of food image
 
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, top: Dimensions.height10),
-                  child: Row(
-                    children: [
-                      Container(
-                        width:Dimensions.listViewImg,
-                        height: Dimensions.listViewImg,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Dimensions.radius20),
-                            color: Colors.white38,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                                image: AssetImage(
-                                    "assets/img/pizza-basilic.jpg"
-                                )
-                            )
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: Dimensions.listViewTextContainer,
+          GetBuilder<RecommendedProductController>(builder: (recommendedProduct) {
+            return recommendedProduct.isLoaded ? ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: recommendedProduct.recommendedProductList.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, top: Dimensions.height10),
+                    child: Row(
+                      children: [
+                        Container(
+                          width:Dimensions.listViewImg,
+                          height: Dimensions.listViewImg,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(Dimensions.radius20),
-                              bottomRight: Radius.circular(Dimensions.radius20),
-                            ),
-                            color: Colors.white,
+                              borderRadius: BorderRadius.circular(Dimensions.radius20),
+                              color: Colors.white38,
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    AppConstants.BASE_URL + AppConstants.UPLOAD_URL + recommendedProduct.recommendedProductList[index].img!,
+                                  )
+                              )
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                BigText(text: "Duo Tomate-Basilic et tout le tralala"),
-                                SizedBox(height: Dimensions.height10),
-                                SmallText(text: "Tomate, basilic, mozzarella, olives, origan, camembert, magie, pied de cochons, pincée de sel, cheddar, droide"),
-                                SizedBox(height: Dimensions.height10),
-                                /* Row(
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: Dimensions.listViewTextContainer,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(Dimensions.radius20),
+                                bottomRight: Radius.circular(Dimensions.radius20),
+                              ),
+                              color: Colors.white,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  BigText(text: recommendedProduct.recommendedProductList[index].name!),
+                                  SizedBox(height: Dimensions.height10),
+                                  SmallText(text: "Tomate, basilic, mozzarella, olives, origan, camembert, magie, pied de cochons, pincée de sel, cheddar, droide"),
+                                  SizedBox(height: Dimensions.height10),
+                                  /* Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     IconAndText(icon: Icons.circle_sharp, text: "Normal", iconColor: AppColors.iconColor1),
@@ -146,15 +150,18 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                                     IconAndText(icon: Icons.access_time_filled_rounded, text: "27 min", iconColor: AppColors.iconColor2),
                                   ],
                                 )*/
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }),
+                        )
+                      ],
+                    ),
+                  );
+                }) : CircularProgressIndicator(
+              color: AppColors.mainColor,
+            );
+          })
       ],
     );
   }
