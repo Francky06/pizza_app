@@ -2,25 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:pizza_app/controllers/recommended_product_controller.dart';
+import 'package:pizza_app/controllers/popular_product_controller.dart';
+import 'package:pizza_app/pages/home/main_food_page.dart';
+import 'package:pizza_app/utils/app_constants.dart';
 import 'package:pizza_app/utils/colors.dart';
 import 'package:pizza_app/widgets/app_icon.dart';
 import 'package:pizza_app/widgets/extensible_text.dart';
-import '../../controllers/popular_product_controller.dart';
-import '../../routes/route_helper.dart';
-import '../../utils/app_constants.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
 
 
-class ProductDetail extends StatelessWidget {
+class CategorieProductDetail extends StatelessWidget {
   int pageId;
-  ProductDetail({Key? key, required this.pageId}) : super(key: key);
+  CategorieProductDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    var prod = Get.find<RecommendedProductController>().recommendedProductList[pageId];
+    var cat = Get.find<PopularProductController>().popularProductList[pageId];
 
 
     return Scaffold(
@@ -34,35 +33,35 @@ class ProductDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: (){
-                    Get.toNamed(RouteHelper.getInitial());
-                  },
-                  child: AppIcon(icon: Icons.clear),
-                ),
+                    onTap: () {
+                      Get.to(() => MainFoodPage());
+      },
+                    child:
+                AppIcon(icon: Icons.clear)),
                 AppIcon(icon: Icons.shopping_cart_outlined)
               ],
             ),
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(20),
-              child: Container(
-                child: Center(child: BigText(size: Dimensions.font26, text: prod.name!)),
-                width: double.maxFinite,
-                padding: EdgeInsets.only(top: 5, bottom: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(Dimensions.radius20),
-                    topRight: Radius.circular(Dimensions.radius20),
+                preferredSize: Size.fromHeight(20),
+                child: Container(
+                  child: Center(child: BigText(size: Dimensions.font26, text: cat.name!)),
+                  width: double.maxFinite,
+                  padding: EdgeInsets.only(top: 5, bottom: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(Dimensions.radius20),
+                      topRight: Radius.circular(Dimensions.radius20),
+                    ),
                   ),
-                ),
-              )
+                )
             ),
             pinned: true,
             backgroundColor: AppColors.yellowColor,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(
-                AppConstants.BASE_URL+AppConstants.UPLOAD_URL+prod.img!,
+                AppConstants.BASE_URL+AppConstants.UPLOAD_URL+cat.img!,
                 width: double.maxFinite,
                 fit: BoxFit.cover,
               ),
@@ -70,30 +69,35 @@ class ProductDetail extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Container(
-              margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
-                    child: ExtensibleText(text: prod.description!
+                margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20),
+                      child: ExtensibleText(text: cat.description!
+                      ),
                     ),
-                  )
 
-                ],
-              )
+
+                  ],
+                )
             ),
           )
         ],
       ),
-      bottomNavigationBar: Column(
+
+
+
+   // bottom bar
+   /*   bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             padding: EdgeInsets.only(
-                left: Dimensions.width20*2.5,
-                right: Dimensions.width20*2.5,
-                top: Dimensions.height10,
-                bottom: Dimensions.height10,
+              left: Dimensions.width20*2.5,
+              right: Dimensions.width20*2.5,
+              top: Dimensions.height10,
+              bottom: Dimensions.height10,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +107,7 @@ class ProductDetail extends StatelessWidget {
                     iconColor: Colors.white,
                     backgroundColor: AppColors.mainColor,
                     icon: Icons.remove),
-                BigText(text: "${prod.price}€  X  0", color: AppColors.mainBlackColor, size: Dimensions.font26),
+                BigText(text: "12.90€ "+" X "+" 0", color: AppColors.mainBlackColor, size: Dimensions.font26),
                 AppIcon(
                     iconSize: Dimensions.iconSize24,
                     iconColor: Colors.white,
@@ -148,7 +152,8 @@ class ProductDetail extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      ) */
+
     );
   }
 }

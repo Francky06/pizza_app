@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:pizza_app/controllers/popular_product_controller.dart';
-import 'package:pizza_app/pages/food/categories.dart';
 import 'package:pizza_app/pages/food/product_detail.dart';
 import 'package:pizza_app/pages/food/popular_food_detail.dart';
 import 'package:pizza_app/pages/food/product_detail.dart';
 import 'package:pizza_app/pages/home/food_page_body.dart';
 import 'package:pizza_app/pages/home/main_food_page.dart';
+import 'package:pizza_app/routes/route_helper.dart';
 import 'controllers/recommended_product_controller.dart';
 import 'helper/dependencies.dart' as dep;
 
@@ -30,10 +30,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: MainFoodPage(),
+      initialRoute: RouteHelper.initial,
+      getPages: RouteHelper.routes,
     );
   }
 }
