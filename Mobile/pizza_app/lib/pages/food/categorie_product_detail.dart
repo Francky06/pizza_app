@@ -8,6 +8,7 @@ import 'package:pizza_app/utils/app_constants.dart';
 import 'package:pizza_app/utils/colors.dart';
 import 'package:pizza_app/widgets/app_icon.dart';
 import 'package:pizza_app/widgets/extensible_text.dart';
+import '../../controllers/recommended_product_controller.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
 
@@ -38,7 +39,30 @@ class CategorieProductDetail extends StatelessWidget {
       },
                     child:
                 AppIcon(icon: Icons.clear)),
-                AppIcon(icon: Icons.shopping_cart_outlined)
+                GetBuilder<RecommendedProductController>(builder: (controller) {
+                  return Stack(
+                    children: [
+                      AppIcon(icon: Icons.shopping_cart_outlined),
+                      Get.find<RecommendedProductController>().totalItems >= 1 ?
+                      Positioned(
+                        right: 0, top: 0,
+                        child: AppIcon(icon: Icons.circle, size: 20,
+                            iconColor: Colors.transparent,
+                            backgroundColor: AppColors.mainColor),
+                      ) :
+                      Container(),
+
+                      Get.find<RecommendedProductController>().totalItems >= 1 ?
+                      Positioned(
+                        right: 4, top: 3,
+                        child: BigText(text: Get.find<RecommendedProductController>().totalItems.toString(),
+                            size: 12, color: Colors.white),
+                      ) :
+                      Container(),
+                    ],
+                  );
+                })
+
               ],
             ),
             bottom: PreferredSize(

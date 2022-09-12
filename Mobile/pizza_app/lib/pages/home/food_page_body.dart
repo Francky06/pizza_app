@@ -93,6 +93,16 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             child: BigText(text: "TEST PRODUCT 2"),
           ),
         ),
+        Container(
+          height: 25,
+          color: Colors.green,
+          child: GestureDetector(
+            onTap: (){
+              Get.to(() => PopularFoodDetail(pageId: 1));
+            },
+            child: BigText(text: "TEST PRODUCT 3"),
+          ),
+        ),
 
 
         //popular text
@@ -190,7 +200,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 }) : CircularProgressIndicator(
               color: AppColors.mainColor,
             );
-          })
+          }),
+        SizedBox(height: Dimensions.height45),
       ],
     );
   }
