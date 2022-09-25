@@ -115,7 +115,7 @@ class CartPage extends StatelessWidget {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        BigText(text: cartController.getItems[index].price.toString(), color: Colors.redAccent),
+                                        BigText(text: cartController.getItems[index].price.toString()+"€", color: Colors.redAccent),
                                         Container(
                                           padding: EdgeInsets.only(top: Dimensions.height10, bottom: Dimensions.height10, left: Dimensions.width10, right: Dimensions.width10),
                                           decoration: BoxDecoration(
@@ -158,6 +158,52 @@ class CartPage extends StatelessWidget {
           ))
         ],
       ),
+      bottomNavigationBar: GetBuilder<CartController>(builder: (cartController) {
+        return Container(
+          height: Dimensions.bottomHeight,
+          padding: EdgeInsets.only(top: Dimensions.height30, bottom: Dimensions.height30, left: Dimensions.width20, right: Dimensions.width20),
+          decoration: BoxDecoration(
+              color: AppColors.buttonBgColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(Dimensions.radius20*2),
+                topRight: Radius.circular(Dimensions.radius20*2),
+              )
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: Dimensions.height15, bottom: Dimensions.height15, left: Dimensions.width30, right: Dimensions.width30),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    SizedBox(width: Dimensions.width10/2),
+                    BigText(text: cartController.totalAmount.toString()+" €"),
+                    SizedBox(width: Dimensions.width10/2),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  // recommendedProduct.addItem(product);
+                },
+                child: Container(
+                  padding: EdgeInsets.only(top: Dimensions.height15, bottom: Dimensions.height15, left: Dimensions.width20, right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: AppColors.mainColor,
+                  ),
+                  child: BigText(text:"Commander",
+                      color: Colors.white),
+                ),
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }
