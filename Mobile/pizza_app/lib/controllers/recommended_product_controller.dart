@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pizza_app/controllers/cart_controller.dart';
 import 'package:pizza_app/utils/colors.dart';
 import '../data/repository/recommended_product_repo.dart';
+import '../models/cart_model.dart';
 import '../models/products_models.dart';
 
 class RecommendedProductController extends GetxController {
@@ -19,6 +20,8 @@ class RecommendedProductController extends GetxController {
   int get quantity => _quantity;
   int _inCartItems = 0;
   int get inCartItems => _inCartItems + _quantity;
+
+
 
 
   Future<void> getRecommendedProductList() async {
@@ -56,7 +59,7 @@ class RecommendedProductController extends GetxController {
       Get.snackbar("Easter Egg", "Les rires éclatent mieux lorsque la nourriture est bonne. Nul besoin d'en rajouter!",
           backgroundColor: AppColors.mainColor,
           colorText: Colors.white);
-      return 10;
+      return 0;
     } else {
       return quantity;
     }
@@ -92,5 +95,9 @@ class RecommendedProductController extends GetxController {
 
   int get totalItems {
     return _cart.totalItems;
+  }
+
+  List<CartModel> get getItems {
+    return _cart.getItems;
   }
 }

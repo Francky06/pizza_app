@@ -9,13 +9,16 @@ import 'package:pizza_app/utils/colors.dart';
 import 'package:pizza_app/widgets/app_icon.dart';
 import 'package:pizza_app/widgets/extensible_text.dart';
 import '../../controllers/recommended_product_controller.dart';
+import '../../routes/route_helper.dart';
 import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
+import '../cart/cart_page.dart';
 
 
 class CategorieProductDetail extends StatelessWidget {
   int pageId;
-  CategorieProductDetail({Key? key, required this.pageId}) : super(key: key);
+  final String page;
+  CategorieProductDetail({Key? key, required this.pageId, required this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,31 +38,38 @@ class CategorieProductDetail extends StatelessWidget {
               children: [
                 GestureDetector(
                     onTap: () {
-                      Get.to(() => MainFoodPage());
+                      Get.toNamed(RouteHelper.getInitial());
       },
                     child:
-                AppIcon(icon: Icons.clear)),
+                AppIcon(icon: Icons.arrow_back_ios)),
                 GetBuilder<RecommendedProductController>(builder: (controller) {
-                  return Stack(
-                    children: [
-                      AppIcon(icon: Icons.shopping_cart_outlined),
-                      Get.find<RecommendedProductController>().totalItems >= 1 ?
-                      Positioned(
-                        right: 0, top: 0,
-                        child: AppIcon(icon: Icons.circle, size: 20,
-                            iconColor: Colors.transparent,
-                            backgroundColor: AppColors.mainColor),
-                      ) :
-                      Container(),
+                  return GestureDetector(
+                    onTap: () {
+                      if (controller.totalItems >= 1)
+                      Get.toNamed(RouteHelper.getcartPage());
+                    },
+                    child: Stack(
+                      children: [
+                        AppIcon(icon: Icons.shopping_cart_outlined),
+                        // controller.totalItems >= 1 ?
+                        Positioned(
+                          right: 0, top: 0,
+                            child: AppIcon(icon: Icons.circle, size: 20,
+                                iconColor: Colors.transparent,
+                                backgroundColor: AppColors.mainColor),
+                          ),
+                        // : Container(),
 
-                      Get.find<RecommendedProductController>().totalItems >= 1 ?
-                      Positioned(
-                        right: 4, top: 3,
-                        child: BigText(text: Get.find<RecommendedProductController>().totalItems.toString(),
-                            size: 12, color: Colors.white),
-                      ) :
-                      Container(),
-                    ],
+                        // controller.totalItems >= 1 ?
+                        Positioned(
+                          right: 4, top: -2,
+                          child: BigText(text: "*",
+                              // controller.totalItems.toString(),
+                              size: 24, color: Colors.white),
+                        )
+                        // : Container(),
+                      ],
+                    ),
                   );
                 })
 

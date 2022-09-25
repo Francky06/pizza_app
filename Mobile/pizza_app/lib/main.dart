@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:pizza_app/controllers/popular_product_controller.dart';
+import 'package:pizza_app/pages/cart/cart_page.dart';
 import 'package:pizza_app/pages/food/product_detail.dart';
 import 'package:pizza_app/pages/food/popular_food_detail.dart';
 import 'package:pizza_app/pages/food/product_detail.dart';
