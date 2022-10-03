@@ -9,6 +9,7 @@ import 'package:pizza_app/pages/food/popular_food_detail.dart';
 import 'package:pizza_app/pages/food/product_detail.dart';
 import 'package:pizza_app/pages/home/food_page_body.dart';
 import 'package:pizza_app/pages/home/main_food_page.dart';
+import 'package:pizza_app/pages/splash/splash_page.dart';
 import 'package:pizza_app/routes/route_helper.dart';
 import 'controllers/recommended_product_controller.dart';
 import 'helper/dependencies.dart' as dep;
@@ -26,15 +27,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Get.find<PopularProductController>().getPopularProductList();
-    Get.find<RecommendedProductController>().getRecommendedProductList();
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: MainFoodPage(),
-      initialRoute: RouteHelper.initial,
-      getPages: RouteHelper.routes,
-    );
+    return GetBuilder<PopularProductController>(builder: (_) {
+      return GetBuilder<RecommendedProductController>(builder: (_){
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Pizza BTC',
+          //  home: SplashPage(),
+          initialRoute: RouteHelper.getSplashPage(),
+          getPages: RouteHelper.routes,
+        );
+      });
+    });
   }
 }
 
