@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:pizza_app/pages/cart/cart_page.dart';
 import 'package:pizza_app/pages/home/main_food_page.dart';
 import 'package:pizza_app/utils/colors.dart';
 
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   List pages = [
     MainFoodPage(),
     Container(child: Center(child: Text("Historique",))),
-    Container(child: Center(child: Text("Panier",))),
+    CartPage(),
     Container(child: Center(child: Text("Profil",)))
   ];
 

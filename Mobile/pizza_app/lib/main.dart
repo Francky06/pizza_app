@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:pizza_app/controllers/cart_controller.dart';
 import 'package:pizza_app/controllers/popular_product_controller.dart';
 import 'package:pizza_app/pages/cart/cart_page.dart';
 import 'package:pizza_app/pages/food/product_detail.dart';
@@ -27,11 +28,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Cart persist in cart
+    Get.find<CartController>().getCartData();
+
     return GetBuilder<PopularProductController>(builder: (_) {
       return GetBuilder<RecommendedProductController>(builder: (_){
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Pizza BTC',
+          title: 'Meki Pizza',
           //  home: SplashPage(),
           initialRoute: RouteHelper.getSplashPage(),
           getPages: RouteHelper.routes,
